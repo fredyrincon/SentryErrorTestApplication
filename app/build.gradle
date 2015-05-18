@@ -1,0 +1,42 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "au.com.healthconnex.sentryerrortestapplication"
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode System.getenv("BUILD_NUMBER") as Integer ?: 0 //Used for app store or every time will be a new release
+        versionName "1.0.0"
+        project.ext.set("archivesBaseName", "MCM_Video-" + versionName + "." + versionCode );
+        resValue "string", "VERSION_NAME_AUTO", "v." + versionName + "." + versionCode
+        resValue "string", "current_version_app", versionName + "." + versionCode
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions{
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'LICENSE.txt'
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.1.1'
+
+    compile 'net.kencochrane.raven:raven:6.0.0'
+    compile 'net.kencochrane.raven:raven-log4j:6.0.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+}
